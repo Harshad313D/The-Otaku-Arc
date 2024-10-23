@@ -18,28 +18,56 @@ function Login() {
   //     const session = await authService.login(data);
   //     if (session) {
   //       const userData = await authService.getCurrentUser();
-  //       if (userData) dispatch(authLogin(userData));
-  //       navigate("/");
+  //       if (userData) {
+  //         dispatch(authLogin(userData));
+  //         navigate("/");
+  //       } else {
+  //         setError("User data not found after login");
+  //       }
+  //     } else {
+  //       setError("Session could not be established");
   //     }
   //   } catch (error) {
   //     setError(error.message);
   //   }
   // };
 
+  // const login = async (data) => {
+  //   setError("");
+  //   try {
+  //     const session = await authService.login(data); // Now the session will be returned correctly
+  //     console.log(session); // Log the session to check if it's returned
+  //     if (session) {
+  //       const userData = await authService.getCurrentUser(); // Fetch the current user data
+  //       if (userData) {
+  //         dispatch(authLogin(userData)); // Dispatch the user data to Redux
+  //         navigate("/"); // Navigate to the home page after successful login
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //     setError(error.message);
+  //   }
+  // };
   const login = async (data) => {
-    setError("");
+    setError(""); // Clear previous errors
     try {
-      const session = await authService.login(data); // Now the session will be returned correctly
-      console.log(session); // Log the session to check if it's returned
-      if (session) {
-        const userData = await authService.getCurrentUser(); // Fetch the current user data
-        if (userData) {
-          dispatch(authLogin(userData)); // Dispatch the user data to Redux
-          navigate("/"); // Navigate to the home page after successful login
-        }
+      // Call login service
+      await authService.login(data); // Try logging in with the provided data
+
+      // After login, manually check if the user is authenticated
+      const userData = await authService.getCurrentUser(); // Get the current user session
+
+      if (userData) {
+        // If user data is present, dispatch login and navigate to the home page
+        dispatch(authLogin(userData));
+        navigate("/"); // Navigate to the home page
+        console.log("user logged in with :", data.email);
+      } else {
+        setError("User is authenticated but session could not be fetched.");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      // Display error if login fails
       setError(error.message);
     }
   };

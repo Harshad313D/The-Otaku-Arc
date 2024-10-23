@@ -13,8 +13,7 @@ export class AuthService {
         this.account = new Account(this.client);     
             
     }
-    
-
+   
     async createAccount({email, password, name}) {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
@@ -31,22 +30,22 @@ export class AuthService {
 
     
 
-    // async login({email, password}) {
-    //     try {
-    //         await this.account.createEmailPasswordSession(email, password); // Ensure this is called after creating the user
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-
-    async login({ email, password }) {
-    try {
-        const session = await this.account.createEmailPasswordSession(email, password);
-        return session;  // Return the session object
-    } catch (error) {
-        throw error;  // Throw the error for the calling function to catch
+    async login({email, password}) {
+        try {
+            await this.account.createEmailPasswordSession(email, password); // Ensure this is called after creating the user
+        } catch (error) {
+            throw error;
+        }
     }
-}
+
+//     async login({ email, password }) {
+//     try {
+//         const session = await this.account.createEmailPasswordSession(email, password);
+//         return session;  // Return the session object
+//     } catch (error) {
+//         throw error;  // Throw the error for the calling function to catch
+//     }
+// }
 
 
     async getCurrentUser() {

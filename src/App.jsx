@@ -6,8 +6,6 @@ import { login, logout } from "./store/authSlice";
 import { Header, Footer } from "./components";
 import { Outlet } from "react-router-dom";
 
-// const ApiUrl = import.meta.env.VITE_APPWRITE_URL;
-
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
