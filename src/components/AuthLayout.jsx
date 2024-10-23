@@ -8,27 +8,16 @@ export default function Protected({ children, authentication = true }) {
 
   const authStatus = useSelector((state) => state.auth.status);
 
-  // useEffect(() => {
-  //   // todo : make it more easy
-  //   if (authentication && authStatus !== authentication) {
-  //     navigate("/login");
-  //   } else if (!authentication && authStatus !== authentication) {
-  //     navigate("/");
-  //   }
-  //   setLoader(false);
-  // }, [authStatus, navigate, authentication]);
   useEffect(() => {
-    let authValue = authStatus === true ? true : false;
-
-    if (authValue) {
-      navigate("/"); // If authenticated, navigate to home
-    } else {
+    // todo : make it more easy
+    if (authentication && authStatus !== authentication) {
       navigate("/login");
-      console.log("you need to login first "); // If not authenticated, navigate to login
+    } else if (!authentication && authStatus !== authentication) {
+      navigate("/");
     }
-
     setLoader(false);
-  }, [authStatus, navigate]);
+  }, [authStatus, navigate, authentication]);
+
   return loader ? <h1>loading...</h1> : <>{children}</>;
 }
 
